@@ -419,6 +419,7 @@ const doAction = (action) => {
         frames = frames.splice(newIndex, 0, sourceFrameProps)
         windowState = windowState.set('frames', frames)
         // Since the tab could have changed pages, update the tab page as well
+        console.log('update frames intenral index ------1')
         windowState = frameStateUtil.updateFramesInternalIndex(windowState, Math.min(sourceFrameIndex, newIndex))
         windowState = frameStateUtil.updateTabPageIndex(windowState, activeFrame.get('tabId'))
         break

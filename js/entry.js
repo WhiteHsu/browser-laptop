@@ -93,6 +93,7 @@ const generateTabs = (windowState, frames, windowId) => {
 
   frames.forEach((frame, i) => {
     if (frame.guestInstanceId) {
+      console.log('new web contents added:', windowId, frame)
       appActions.newWebContentsAdded(windowId, frame)
     } else {
       appActions.createTabRequested({

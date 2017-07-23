@@ -319,7 +319,7 @@ const frameOptsFromFrame = (frame) => {
  * Adds a frame specified by frameOpts and newKey and sets the activeFrameKey
  * @return Immutable top level application state ready to merge back in
  */
-function addFrame (state, frameOpts, newKey, partitionNumber, openInForeground, insertionIndex) {
+function addFrame (state, frameOpts, newKey, partitionNumber, openInForeground, insertionIndex, active) {
   const frames = state.get('frames')
 
   const location = frameOpts.location // page url
@@ -350,6 +350,9 @@ function addFrame (state, frameOpts, newKey, partitionNumber, openInForeground, 
     loading: frameOpts.rendererInitiated,
     startLoadTime: null,
     endLoadTime: null,
+    attachIndex: insertionIndex,
+    attachOpenedInForeground: openInForeground,
+    attachActive: active,
     lastAccessedTime: openInForeground ? new Date().getTime() : null,
     isPrivate: false,
     partitionNumber,
@@ -532,6 +535,7 @@ const updateFramesInternalIndex = (state, fromIndex) => {
       framesInternal = framesInternal.setIn(['tabIndex', frame.get('tabId').toString()], realIndex)
     }
 
+    console.log('!!!!!!!!updateFramesInternalIndex tabIndexChanged:', frame.get('tabId'), realIndex, frame.toJS())
     appActions.tabIndexChanged(frame.get('tabId'), realIndex)
   })
 

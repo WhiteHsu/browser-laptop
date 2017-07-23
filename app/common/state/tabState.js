@@ -107,6 +107,10 @@ const updateTabsDisplayIndex = (state, oldTabValue, newTabValue) => {
   const oldWindowId = validateId('windowId', oldTabValue.get('windowId'))
   const oldIndex = validateIndex(oldTabValue.get('index'))
   if (oldIndex !== -1 && oldTabId !== tabState.TAB_ID_NONE && oldWindowId !== windowState.WINDOW_ID_NONE) {
+    if (oldWindowId.toString() === '1' && oldIndex.toString() === '0') {
+      console.log('------------deleteIn- display index:', oldWindowId.toString(), oldIndex.toString())
+      console.log(new Error().stack)
+    }
     state = state.deleteIn(['tabsInternal', 'displayIndex', oldWindowId.toString(), oldIndex.toString()])
   }
 
@@ -114,9 +118,11 @@ const updateTabsDisplayIndex = (state, oldTabValue, newTabValue) => {
   const windowId = validateId('windowId', newTabValue.get('windowId'))
   const index = validateIndex(newTabValue.get('index'))
   if (index !== -1 && tabId !== tabState.TAB_ID_NONE && windowId !== windowState.WINDOW_ID_NONE) {
+    if (tabId === 13 && windowId === 1 && index === 0) {
+      console.log('------------setIn- display index:', windowId.toString(), index.toString())
+    }
     return state.setIn(['tabsInternal', 'displayIndex', windowId.toString(), index.toString()], tabId)
   }
-
   return state
 }
 
@@ -138,6 +144,7 @@ const deleteTabsInternalIndex = (state, tabValue) => {
   const windowId = validateId('windowId', tabValue.get('windowId'))
   const displayIndex = validateIndex(tabValue.get('index'))
   if (displayIndex !== -1 && windowId !== windowState.WINDOW_ID_NONE) {
+    console.log('------------delete display index:', windowId.toString(), displayIndex)
     state = state.deleteIn(['tabsInternal', 'displayIndex', windowId.toString(), displayIndex.toString()])
   }
   if (windowId !== windowState.WINDOW_ID_NONE) {

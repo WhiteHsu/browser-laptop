@@ -162,10 +162,16 @@ class Frame extends React.Component {
       if (cb) {
         this.runOnDomReady = cb
         let eventCallback = (e) => {
+          console.log('==============did-attach callback tabId:', this.props.tabId)
+          setTimeout(() => {
+          windowActions.onWebviewWillAttach(this.props.tabId)
+          }, 1000)
           this.webview.removeEventListener(e.type, eventCallback)
           this.runOnDomReady()
           delete this.runOnDomReady
         }
+        this.webview.addEventListener('will-attach', () => {
+        })
         this.webview.addEventListener('did-attach', eventCallback, { passive: true })
       }
 

@@ -132,7 +132,7 @@ const frameReducer = (state, action, immutableAction) => {
           const activeTabHasUpdated = changeInfo.get('active') != null
 
           if (!isNewTab && activeTabHasUpdated) {
-            state = frameStateUtil.updateTabPageIndex(state, tabId)
+            // state = frameStateUtil.updateTabPageIndex(state, tabId)
             state = state.set('previewFrameKey', null)
           }
         }
@@ -210,7 +210,7 @@ const frameReducer = (state, action, immutableAction) => {
         // TODO(nejc) this can be simplified when states are merged
         const newFrames = state.get('frames').filter(frame => !tabs.includes(frame.get('tabId')))
         let newState = state.set('frames', newFrames)
-        newState = frameStateUtil.updateTabPageIndex(newState, action.tabId)
+        //newState = frameStateUtil.updateTabPageIndex(newState, action.tabId)
         const index = newState.getIn(['ui', 'tabs', 'tabPageIndex'], 0)
         state = state.setIn(['ui', 'tabs', 'tabPageIndex'], index)
       }
@@ -224,6 +224,24 @@ const frameReducer = (state, action, immutableAction) => {
       state = setFullScreen(state, action)
       break
 
+    case windowConstants.WINDOW_WEBVIEW_WILL_ATTACH: {
+      /*
+      const tabId = action.tabId
+      const frameProps = frameStateUtil.getFrameByTabId(state, tabId)
+      console.log('========updating tab frame index tabId:', tabId, frameProps.get('attachIndex'))
+      state = frameStateUtil.updateFramesInternalIndex(state, frameProps.get('attachIndex'))
+      if (frameProps.get('attachOpenedInForeground')) {
+        state = frameStateUtil.updateTabPageIndex(state, tabId)
+        if (frameProps.get('attachActive')) {
+          // only set the activeFrameKey if the tab is already active
+          state = state.set('activeFrameKey', frame.get('key'))
+        } else {
+          appActions.tabActivateRequested(tabId)
+        }
+      }
+      */
+      break
+    }
     case windowConstants.WINDOW_ON_FRAME_BOOKMARK:
       {
         // TODO make this an appAction that gets the bookmark data from tabState
